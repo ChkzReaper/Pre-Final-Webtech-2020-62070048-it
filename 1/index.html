@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>62040048</title>
+    <style>
+        body{
+            background-color: lightpink
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+        * {
+            font-size: 15px;
+            font-family: 'Lobster', cursive;;
+
+        }
+        .card {
+            border-style: none;
+            transition: transform .2s;
+            background-color:rgb(245, 105, 128)
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            background-color:rgb(180, 80, 97)
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-3">EZquiz</h1>
+        <div class="row" id="moviebox"></div>
+    </div>
+    <script>
+        let requestURL = 'ezquiz.json';
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState == 4 && request.status == 200) {
+                dataReportStatus(JSON.parse(request.responseText));
+            }
+        };
+        request.open("GET", requestURL, true);
+        request.send();
+
+        function dataReportStatus(data) {
+            let movieBox = document.getElementById("moviebox");
+            let inner = "";
+            for (let i = 0; i < data.movies.showing.length; i++) {
+                inner +=
+                    '<div class="col-md-4 col-lg-4 mb-4">\
+                        <div class="card">\
+                            <img class="card-img-top" src="' + data.movies.showing[i].poster + '">\
+                            <div class="card-body text-center pl-3 pr-3">\
+                                <h5 class="card-title">' + data.movies.showing[i].title_th + '</h5>\
+                                <p class="card-text">Release date : ' + data.movies.showing[i].releasedate + '</p>\
+                                <button class="btn btn-info btn-block">เช็ครอบภาพยนตร์</button>\
+                            </div>\
+                        </div>\
+                    </div>'
+            }
+
+            movieBox.innerHTML = inner;
+
+            
+        }
+    </script>
+
+</body>
+
+</html>
